@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +30,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(ProfileUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
 

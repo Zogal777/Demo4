@@ -46,6 +46,15 @@ const showingNavigationDropdown = ref(false);
                                     Users
                                 </NavLink>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                              <NavLink
+                                  :href="route('clients')"
+                                  :active="route().current('clients')"
+                              >
+                                Clients
+                              </NavLink>
+                            </div>
+
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">

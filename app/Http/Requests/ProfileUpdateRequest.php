@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -20,7 +21,8 @@ class ProfileUpdateRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->route('id')),
+//                Rule::unique('users')->ignore($this->route('id')),
+                Rule::unique('users')->ignore(Auth::id()),
             ],
             'date_of_birth' => ['required', 'date'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],

@@ -8,15 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
+use App\Models\Client;
 
 class ProfileController extends Controller
 {
-    public function edit(Request $request): Response
+    public function edit(Request $request)
     {
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail,
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+
+            'clients' => Client::all(),
+            'userClients' => $request->user()->clients()->pluck('client_id'),
         ]);
     }
 
@@ -50,4 +53,17 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function updateClients(Request $request)
+    {
+        $request->validate([
+            'clients' => 'array',
+            'clients.*' => 'exists:clients,id',
+        ]);
+
+        $request->user()->clients()->sync($request->clients ?? []);
+
+        return back()->with('status', 'clients-updated');
+    }
+
 }
