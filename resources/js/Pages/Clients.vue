@@ -19,7 +19,8 @@ defineProps({
 
     <div class="py-12">
       <div class="mx-auto max-w-5xl sm:px-6 lg:px-8">
-        <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+        <div class="bg-white p-6 shadow-sm sm:rounded-lg overflow-auto max-h-[500px]">
+          <!-- Таблица клиентов с прокруткой -->
           <table class="w-full">
             <thead>
             <tr class="border-b text-left">
@@ -27,12 +28,7 @@ defineProps({
               <th class="py-2">Business Name</th>
               <th class="py-2">Registration number</th>
               <th class="py-2">PVN</th>
-              <th class="py-2">
-                <Link :href="route('clients.create')" class="px-3 py-1.5 bg-gray-800 text-white rounded hover:bg-gray-700">
-                  Add
-                </Link>
-
-              </th>
+              <th class="py-2">Actions</th>
             </tr>
             </thead>
 
@@ -50,9 +46,17 @@ defineProps({
               </td>
             </tr>
             </tbody>
-
           </table>
         </div>
+
+        <!-- Кнопка Add полностью под таблицей -->
+        <div class="flex justify-end mt-4">
+          <Link :href="route('clients.create')"
+                class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700">
+            Add Client
+          </Link>
+        </div>
+
       </div>
     </div>
   </AuthenticatedLayout>

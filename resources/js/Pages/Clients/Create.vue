@@ -1,22 +1,27 @@
 <script setup>
 import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3'; // ← добавляем импорт
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CreateClientInfo from './Partials/CreateClientInfo.vue';
-import CreateClientContacts from './Partials/CreateClientContacts.vue';
+import ClientContacts from './Partials/ClientContacts.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
   business_name: '',
   registration_num: '',
   tax_num: '',
-  contacts: [{ type: 'email', value: '', comment: '' }],
+  contacts: [], // контактов нет изначально
 });
 
 const contactsRef = ref(null);
 
 const submit = () => {
-  if (!contactsRef.value.validateContacts()) return; // проверка контактов
+  if (!contactsRef.value.validateContacts()) return;
   form.post(route('clients.store'));
+};
+
+const cancelCreate = () => {
+  form.reset();
 };
 </script>
 
@@ -30,16 +35,23 @@ const submit = () => {
 
     <div class="py-8">
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
-
         <div class="bg-white shadow sm:rounded-lg p-6">
           <CreateClientInfo :form="form" />
         </div>
 
         <div class="bg-white shadow sm:rounded-lg p-6">
-          <CreateClientContacts :form="form" ref="contactsRef" />
+          <ClientContacts :form="form" ref="contactsRef" :isEdit="false" />
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end space-x-4">
+          <Link
+              :href="route('clients')"
+              @click="cancelCreate"
+              class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+          >
+            Cancel
+          </Link>
+
           <button
               @click="submit"
               :disabled="form.processing"
@@ -48,7 +60,6 @@ const submit = () => {
             Save Client
           </button>
         </div>
-
       </div>
     </div>
   </AuthenticatedLayout>

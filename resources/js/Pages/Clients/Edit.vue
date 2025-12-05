@@ -1,8 +1,9 @@
 <script setup>
 import { ref, nextTick } from 'vue';
+import { Link } from '@inertiajs/vue3'; // ← импорт Link для Cancel
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import EditClientInfo from './Partials/EditClientInfo.vue';
-import EditClientContacts from './Partials/EditClientContacts.vue';
+import ClientContacts from './Partials/ClientContacts.vue';
 import { useForm } from '@inertiajs/vue3';
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
@@ -20,7 +21,7 @@ const form = useForm({
         value: c.value,
         comment: c.comment ?? ''
       }))
-      : [{ type: 'email', value: '', comment: '' }]
+      : [],
 });
 
 const contactsRef = ref(null);
@@ -28,6 +29,10 @@ const contactsRef = ref(null);
 const submit = () => {
   if (!contactsRef.value.validateContacts()) return;
   form.patch(route('clients.update', props.client.id), { preserveScroll: true });
+};
+
+const cancelEdit = () => {
+  form.reset();
 };
 
 const confirmingClientDeletion = ref(false);
@@ -62,17 +67,26 @@ const closeModal = () => {
 
     <div class="py-8">
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
-
         <div class="bg-white shadow sm:rounded-lg p-6">
           <EditClientInfo :form="form" />
         </div>
 
         <div class="bg-white shadow sm:rounded-lg p-6">
-          <EditClientContacts :form="form" ref="contactsRef" />
+          <ClientContacts :form="form" ref="contactsRef" :isEdit="true" />
         </div>
 
         <div class="flex justify-end space-x-4">
-          <DangerButton @click="confirmClientDeletion">Delete Client</DangerButton>
+          <DangerButton @click="confirmClientDeletion">
+            Delete Client
+          </DangerButton>
+
+          <Link
+              :href="route('clients')"
+              @click="cancelEdit"
+              class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
+          >
+            Cancel
+          </Link>
 
           <button
               @click="submit"
