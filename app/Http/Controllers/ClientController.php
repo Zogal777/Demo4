@@ -32,4 +32,25 @@ class ClientController extends Controller
 
         return redirect()->route('clients');
     }
+
+    public function edit(Client $client)
+    {
+        return Inertia::render('Clients/Edit', [
+            'client' => $client,
+        ]);
+    }
+
+    public function update(Request $request, Client $client)
+    {
+        $request->validate([
+            'business_name' => 'required',
+            'registration_num' => 'nullable',
+            'tax_num' => 'nullable',
+        ]);
+
+        $client->update($request->only('business_name', 'registration_num', 'tax_num'));
+
+        return redirect()->route('clients');
+    }
+
 }

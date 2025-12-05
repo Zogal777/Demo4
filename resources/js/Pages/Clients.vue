@@ -42,6 +42,12 @@ defineProps({
               <td class="py-2">{{ client.business_name }}</td>
               <td class="py-2">{{ client.registration_num }}</td>
               <td class="py-2">{{ client.tax_num }}</td>
+              <td class="py-2">
+                <Link :href="route('clients.edit', client.id)"
+                      class="px-3 py-1.5 bg-gray-800 text-white rounded hover:bg-gray-700">
+                  Edit
+                </Link>
+              </td>
             </tr>
             </tbody>
 
