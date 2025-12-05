@@ -8,7 +8,7 @@ class UpdateUserPasswordRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->id() === 1; // только админ
+        return auth()->id() === 1;
     }
 
     public function rules(): array

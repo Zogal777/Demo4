@@ -9,12 +9,12 @@ class UserUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->id === 1; // только админ
+        return $this->user()->id === 1;
     }
 
     public function rules(): array
     {
-        $userId = $this->route('id'); // ID пользователя из маршрута
+        $userId = $this->route('id');
 
         return [
             'name' => ['required', 'string', 'max:255'],

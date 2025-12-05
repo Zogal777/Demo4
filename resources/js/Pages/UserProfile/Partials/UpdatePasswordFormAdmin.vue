@@ -6,7 +6,6 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-// Получаем props и страницу
 const props = defineProps({ user: Object });
 const page = usePage();
 const isAdmin = page.props.auth.user?.id === 1;
@@ -17,7 +16,6 @@ const form = useForm({
   password_confirmation: '',
 });
 
-// Метод обновления пароля
 const updatePassword = async () => {
   if (!form.password) return;
 
